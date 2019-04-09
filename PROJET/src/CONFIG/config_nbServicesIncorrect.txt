@@ -1,0 +1,21 @@
+# erreur : nombre de services incorrect (doit être >= 1)
+
+# une ligne commençant par un dièse est un commentaire
+# et les lignes blanches sont autorisées et ignorées
+# une ligne ne peut pas dépasser 255 caractères
+
+# nombre de services proposés
+0
+
+# ensuite une ligne par service sous le format :
+# num_service ouvert/ferme nom_exécutable
+# - num service : entier ; numéroté obligatoirement de 1 à nombre de services
+# - état : "ouvert" ou "ferme"
+# - nom_exécutable
+
+1 ouvert   SERVICES/service_somme
+2 ferme    SERVICES/service_miroir
+3 ouvert   SERVICES/service_compression
+4 ouvert   SERVICES/service_binarisation
+
+# fin fichier

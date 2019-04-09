@@ -1,0 +1,23 @@
+Le module Image.[hc] permet de lire et écrire des images pgm sur disque.
+
+Deux images fournies sont adaptées au projet
+
+Attention il est spécifique au projet car il lit quasi-exclusivement
+les deux images fournies (pour les curieux il lit les images
+de dynamique comprise entre 256 et 65535).
+
+La fonction image_lire vous fournit les données directement
+exploitables par le client et le service (i.e. un tableau
+unidimensionnel de unsigned short).
+
+Il y a deux fonctions pour écrire l'image sur disque :
+- image_ecrire
+- image_ecrire255
+Vu les indications de l'énoncé, c'est la deuxième fonction que vous
+utiliserez.
+
+
+Pour les deux images fournies, vous pouvez tester des seuils
+entre 1000 et 1200.
+
+Les images seront affichées par des programmes externes (display, gimp, ...)

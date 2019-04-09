@@ -1,0 +1,79 @@
+Fonctionnement d'un service, quel qu'il soit
+============================================
+
+Il prend en arguments de ligne de commande deux chaînes qui sont
+les noms des tubes nommés permettant de communiquer avec le client :
+ . pipeIn  : tube pour recevoir les données du client
+ . pipeOut : tube pour envoyer  des données au client
+
+L'hypotèse que les les tubes nommés sont déjà créés et
+que le client connaît également les noms de ces tubes
+
+En l'occurrence, c'est le démon qui :
+- se charge de créer les tubes
+- transmettre les noms au client
+- lancer le service avec un fork+exec
+
+Le protocole de communication est le suivant :
+- le service reçoit les données du client (via pipeIn)
+- il fait les calcul
+- renvoie le résultat au client (via pipeOut)
+- attend un code de fin du client (via pipeIn)
+- détruit les tubes
+
+En réalité, pour les trois premiers points, le protocole
+peut être aussi compliqué que l'on veut puisque le client
+et le service sont implémentés symétriquement.
+Seuls les deux derniers points sont imposés.
+
+Note : on impose des entrées-sorties de bas niveau (open, read, ...)
+
+
+Détails des services
+====================
+
+Voici une explications pour les services (et les clients) demandés.
+Vous être libres d'en créer d'autres.
+
+* service "exit"
+- ce n'est pas un vrai service : il n'a pas d'implémentatino
+- c'est un code particulier (i.e. un code de service non valide, -1 par
+  exemple) qui indique au démon de s'arrêter
+
+* service "somme"
+- il reçoit deux réels (float)
+- il calcule la somme
+- il renvoie le résultat
+
+* service "miroir"
+- il reçoit une chaîne caractères (la longueur est choisie par le client)
+- il la transforme en son miroir
+- il renvoie le résultat
+
+* service "compression"
+- il reçoit une chaîne caractères (la longueur est choisie par le client
+- il supprime toutes les voyelles
+- il renvoie le résultat
+
+* service "binarisation"
+- il reçoit une suite de "unsigned short" qui est un tableau bidimensionnel
+  représentant une image en niveaux gris (65536 niveaux possibles)
+- il reçoit une valeur seuil
+- il calcule une image binarisée : chaque valeur est remplacée par :
+    0 si elle est inférieure au seuil
+  127 si elle égale au seuil
+  255 si elle est supérieure au seuil
+- il renvoie la nouvelle image
+On impose une stratégie de résolution : comme tous les pixels
+sont indépendants, les calculs se feront en multi-threads om
+chaque threads aura à charge une partie de l'image.
+Le nombre de threads est précisé par le client.
+Chaque thread traite une suite de lignes de l'image.
+Voici un exemple de découpage :
+- il y 512 lignes dans l'image
+- il y a 5 threads
+-> thread 0 : lignes   0 à 101
+   thread 1 : lignes 102 à 204
+   thread 2 : lignes 205 à 306
+   thread 3 : lignes 307 à 409
+   thread 4 : lignes 410 à 511

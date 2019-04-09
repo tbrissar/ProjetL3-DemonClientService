@@ -1,0 +1,92 @@
+# Le programme test_config appelle toutes les méthodes de ../config.h
+#
+# cf. contenu de config.txt pour des explications sur l'organisation
+# du fichier de configuration
+#
+# Voici le résultat du testeur avec mon code de config.c
+#
+
+CONFIG$ ./test_config config.txt
+Il y a 4 service(s)
+service 1 : ouvert (SERVICES/service_somme)
+service 2 : ferme  (SERVICES/service_miroir)
+service 3 : ouvert (SERVICES/service_compression)
+service 4 : ouvert (SERVICES/service_binarisation)
+CONFIG$ 
+CONFIG$ ./test_config config_etatIncorrect.txt
+/---------------------------
+| Erreur détectée !
+|       fichier  : ../config.c
+|       ligne    : 81
+|       fonction : config_init
+|       pid      : 4988
+|    Message :
+|       -> etat incorrect
+|    Message systeme:
+|       -> Success
+|    On stoppe le programme
+\---------------------------
+CONFIG$ 
+CONFIG$ ./test_config config_ligneTropLongue.txt
+/---------------------------
+| Erreur détectée !
+|       fichier  : ../config.c
+|       ligne    : 50
+|       fonction : ligneSuivante
+|       pid      : 4989
+|    Message :
+|       -> ligne trop longue
+|    Message systeme:
+|       -> Success
+|    On stoppe le programme
+\---------------------------
+CONFIG$ 
+CONFIG$ ./test_config config_listeServicesTropCourte.txt
+/---------------------------
+| Erreur détectée !
+|       fichier  : ../config.c
+|       ligne    : 49
+|       fonction : ligneSuivante
+|       pid      : 4990
+|    Message :
+|       -> fin de fichier prématurée
+|    Message systeme:
+|       -> Success
+|    On stoppe le programme
+\---------------------------
+CONFIG$ 
+CONFIG$ ./test_config config_listeServicesTropLongue.txt
+Il y a 4 service(s)
+service 1 : ouvert (SERVICES/service_somme)
+service 2 : ferme  (SERVICES/service_miroir)
+service 3 : ouvert (SERVICES/service_compression)
+service 4 : ouvert (SERVICES/service_binarisation)
+CONFIG$ 
+CONFIG$ ./test_config config_nbServicesIncorrect.txt
+/---------------------------
+| Erreur détectée !
+|       fichier  : ../config.c
+|       ligne    : 70
+|       fonction : config_init
+|       pid      : 4995
+|    Message :
+|       -> lecture nombre de services
+|    Message systeme:
+|       -> Success
+|    On stoppe le programme
+\---------------------------
+CONFIG$ 
+CONFIG$ ./test_config config_ordreServicesIncorrect.txt
+/---------------------------
+| Erreur détectée !
+|       fichier  : ../config.c
+|       ligne    : 79
+|       fonction : config_init
+|       pid      : 4996
+|    Message :
+|       -> numéro service
+|    Message systeme:
+|       -> Success
+|    On stoppe le programme
+\---------------------------
+CONFIG$ 
